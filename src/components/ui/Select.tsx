@@ -1,0 +1,59 @@
+import React from "react";
+
+interface SelectOption {
+  label: string;
+  value: string;
+}
+
+interface SelectProps
+  extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  label?: string;
+  options: SelectOption[];
+  error?: string;
+}
+
+export default function Select({
+  label,
+  options,
+  error,
+  id,
+  ...props
+}: SelectProps) {
+  return (
+    <div className="w-full">
+      {label && (
+        <label
+          htmlFor={id}
+          className="mb-1 block text-sm font-medium text-gray-700"
+        >
+          {label}
+        </label>
+      )}
+
+      <select
+        id={id}
+        className={`w-full rounded-lg border bg-white px-3 py-2 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 ${
+          error ? "border-red-500" : "border-gray-300"
+        }`}
+        {...props}
+      >
+        <option value="">Select...</option>
+
+        {options.map((option) => (
+          <option
+            key={option.value}
+            value={option.value}
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
+
+      {error && (
+        <p className="mt-1 text-sm text-red-500">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
